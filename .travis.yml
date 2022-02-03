@@ -1,0 +1,14 @@
+language: node_js
+
+node_js:
+  - "node"
+  - "14"
+  - "12"
+env:
+  - NODE_ENV=test
+services:
+  - mongodb
+before_script:
+  - mongo wildlifetest --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+  - npm install --include=dev
+  - npm run test
