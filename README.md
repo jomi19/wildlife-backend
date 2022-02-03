@@ -1,10 +1,10 @@
 # Wildlife Backend
 
-[![Build Status](https://app.travis-ci.com/jomi19/wildlife-backend.svg?branch=main)](https://app.travis-ci.com/jomi19/wildlife-backend)[![Coverage Status](https://coveralls.io/repos/github/jomi19/wildlifebackend/badge.svg?branch=main)](https://coveralls.io/github/jomi19/wildlifebackend?branch=main)
+[![Build Status](https://app.travis-ci.com/jomi19/wildlife-backend.svg?branch=main)](https://app.travis-ci.com/jomi19/wildlife-backend)[![Coverage Status](https://coveralls.io/repos/github/jomi19/wildlife-backend/badge.svg?branch=main)](https://coveralls.io/github/jomi19/wildlife-backend?branch=main)
 
 ## Api paths
 
-#### GET /post/.
+#### GET /post/
 
 Fetching one blog post with a slug
 REQUIRED
