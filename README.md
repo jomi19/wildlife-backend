@@ -57,3 +57,22 @@ REQUIRED
     slug: slog to the post to delete
 }
 ```
+
+#### PUT /image/
+
+REQUIRED
+
+```
+{
+    id: STRING post uuid v4
+}
+```
+
+OPTIONAL
+
+```
+{
+    description: STRING image description
+    tags: ARRAY
+}
+```

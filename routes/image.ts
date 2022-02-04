@@ -42,4 +42,8 @@ router.delete("/", async (req: Request, res: Response) => {
 	imageModule.deleteImage(req, res);
 });
 
+router.put("/", async (req: Request, res: Response) => {
+	imageModule.update(req, res);
+});
+
 export { router as imageRouter };

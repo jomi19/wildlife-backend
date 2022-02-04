@@ -4,7 +4,7 @@ interface IImage {
 	description?: string;
 	path: string;
 	created?: Date;
-	tags?: string[];
+	tags?: Array<string>;
 	_id?: string;
 }
 
@@ -15,6 +15,7 @@ interface ImageDoc extends mongoose.Document {
 	description?: string;
 	path: string;
 	created?: Date;
+	tags?: Array<string>;
 	_id: string;
 }
 const ImageSchema = new mongoose.Schema({

@@ -77,11 +77,11 @@ const imageModule = {
 				throw {
 					name: "Culdent find that image",
 					message: "Cant find any image with that id",
-					code: 404,
+					errCode: 404,
 				};
 			return res.status(200).json(result);
 		} catch (error: any) {
-			const code = error.code || 500;
+			const code = error.errCode || 500;
 			return res.status(code).json({ error });
 		}
 	},
@@ -102,9 +102,30 @@ const imageModule = {
 			image.delete();
 			return res.status(204).json();
 		} catch (error: any) {
-			const code = error.code || 500;
+			const code = error.errCode || 500;
 
-			return res.status(500).json({ error });
+			return res.status(code).json({ error });
+		}
+	},
+	update: async function (req: Request, res: Response) {
+		console.log("update");
+		try {
+			const { description } = req.body;
+			let tags = req.body.tags?.split(",");
+			const id = validateId(req.body.id);
+			const image: any = await Image.findById(id);
+
+			if (image === null) throw { name: "Cant find that image", errCode: 404 };
+			if (tags) image.tags = tags;
+			if (description) image.description = description;
+
+			image.save();
+
+			return res.status(200).json(image);
+		} catch (error: any) {
+			const code = error.errCode || 500;
+
+			return res.status(code).json({ error });
 		}
 	},
 };
@@ -114,7 +135,7 @@ function validateId(id: any) {
 		throw {
 			name: "Wrong id",
 			message: "Not a valid uuid",
-			code: 400,
+			errCode: 400,
 		};
 	return String(id);
 }
