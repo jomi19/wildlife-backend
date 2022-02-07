@@ -1,7 +1,8 @@
 import express from "express";
-import { postRouter, imageRouter } from "./routes/";
+import { postRouter, imageRouter, userRouter } from "./routes/";
 import mongoose from "mongoose";
 import DATABASE_URL from "./database/database";
+import bodyParser from "body-parser";
 
 const cors = require("cors");
 
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
 	console.log(req.method);
@@ -20,6 +22,7 @@ app.use((req, res, next) => {
 });
 app.use("/post", postRouter);
 app.use("/image", imageRouter);
+app.use("/user", userRouter);
 app.use("/images", express.static("images"));
 
 app.listen(5000);

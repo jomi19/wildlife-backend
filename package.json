@@ -8,23 +8,26 @@
 		"build": "tsc --project ./",
 		"pretest": "bash test/preTest.bash",
 		"coverage": "nyc report --reporter=text-lcov | coveralls",
-		"test": "set NODE_ENV=test&&nyc mocha -r ts-node/register 'test/**/*.ts' --exit"
+		"test": "set NODE_ENV=test&&nyc mocha -r ts-node/register 'test/**/*.ts' --exit",
+		"deploy": "rsync -av build/* deploy@178.62.109.221:/home/deploy/backends/wildback"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@types/body-parser": "^1.19.2",
+		"@types/jsonwebtoken": "^8.5.8",
 		"@types/uuid": "^8.3.4",
 		"body-parser": "^1.19.1",
 		"cors": "^2.8.5",
 		"dompurify": "^2.3.5",
 		"express": "^4.17.2",
 		"jsdom": "^19.0.0",
+		"jsonwebtoken": "^8.5.1",
 		"marked": "^4.0.10",
 		"mongoose": "^6.1.7",
 		"multer": "^1.4.4",
 		"request": "^2.88.2",
-		"sharp": "^0.29.3",
 		"slugify": "^1.6.5",
 		"uuid": "^8.3.2"
 	},
