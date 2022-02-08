@@ -2,10 +2,14 @@ import app from "../../server";
 import chai from "chai";
 import chaiHttp from "chai-http";
 import { assert } from "console";
+import { sign } from "jsonwebtoken";
 //TODO: Need more tests
 
 chai.use(chaiHttp);
 const expect = chai.expect;
+
+const secret = process.env.JWT_SECRET || "testmode";
+const token = sign({ username: "test" }, secret, { expiresIn: "7d" });
 
 const tests = [
 	{
@@ -44,6 +48,7 @@ describe("testing blog PUT at /image", () => {
 				.request(app)
 				.put(`/image`)
 				.set("content-type", "application/x-www-form-urlencoded")
+				.set("x-access-token", token)
 				.send({
 					tags: test.tags,
 					description: test.description,

@@ -2,9 +2,14 @@ import app from "../../server";
 import chai from "chai";
 import chaiHttp from "chai-http";
 import { assert } from "console";
+import { sign } from "jsonwebtoken";
+
 chai.use(chaiHttp);
 const expect = chai.expect;
 //TODO: need more tests
+
+const secret = process.env.JWT_SECRET || "testmode";
+const token = sign({ username: "test" }, secret, { expiresIn: "7d" });
 
 const postTests = [
 	{
@@ -44,6 +49,7 @@ describe("Testing POST at /image", () => {
 				.post("/image")
 				.attach("image", `${test.path}`)
 				.field({ tags: test.tags, description: test.imgDescription })
+				.set("x-access-token", token)
 				.end((err: any, res: any) => {
 					expect(res.statusCode).to.be.equal(test.code);
 					expect(res.body).to.be.an("object");

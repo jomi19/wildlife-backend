@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
-import { Post, Error } from "./../models";
-import { imageModule } from "./../modules/";
+import { imageModule, authModule } from "./../modules/";
 import multer from "multer";
+
 const router = express.Router();
+const checkToken = authModule.checkToken;
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -26,9 +27,9 @@ router.get("/", async (req: Request, res: Response) => {
 });
 router.post(
 	"/",
+	(req, res, next) => checkToken(req, res, next),
 	imageModule.uploadImage.single("image"),
-
-	async (req: Request, res: Response) => {
+	(req: Request, res: Response) => {
 		const filePath = req.file?.path;
 		imageModule.saveImagePath(req, res, filePath);
 	}
@@ -38,12 +39,16 @@ router.get("/all", async (req: Request, res: Response) => {
 	imageModule.getAllImages(req, res);
 });
 
-router.delete("/", async (req: Request, res: Response) => {
-	imageModule.deleteImage(req, res);
-});
+router.delete(
+	"/",
+	(req, res, next) => checkToken(req, res, next),
+	(req: Request, res: Response) => imageModule.deleteImage(req, res)
+);
 
-router.put("/", async (req: Request, res: Response) => {
-	imageModule.update(req, res);
-});
+router.put(
+	"/",
+	(req, res, next) => checkToken(req, res, next),
+	(req: Request, res: Response) => imageModule.update(req, res)
+);
 
 export { router as imageRouter };

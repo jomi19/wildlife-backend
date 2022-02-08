@@ -1,24 +1,31 @@
 import express, { Request, Response } from "express";
-import { Post, Error } from "./../models";
-import { postModule } from "./../modules/";
+import { Post } from "./../models";
+import { postModule, authModule } from "./../modules/";
 
+const checkToken = authModule.checkToken;
 const router = express.Router();
 
-router.post("/", async (req: Request, res: Response) => {
-	postModule.insert(req, res);
-});
+router.post(
+	"/",
+	(req, res, next) => checkToken(req, res, next),
+	(req: Request, res: Response) => postModule.insert(req, res)
+);
 
 router.get("/", async (req: Request, res: Response) => {
 	postModule.findOne(req, res);
 });
 
-router.put("/", async (req: Request, res: Response) => {
-	postModule.update(req, res);
-});
+router.put(
+	"/",
+	(req, res, next) => checkToken(req, res, next),
+	(req: Request, res: Response) => postModule.update(req, res)
+);
 
-router.delete("/", async (req: Request, res: Response) => {
-	postModule.delete(req, res);
-});
+router.delete(
+	"/",
+	(req, res, next) => checkToken(req, res, next),
+	(req: Request, res: Response) => postModule.delete(req, res)
+);
 router.get("/all", async (req: Request, res: Response) => {
 	try {
 		const result = await Post.find().sort({ _id: 1 });

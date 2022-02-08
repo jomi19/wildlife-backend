@@ -2,9 +2,12 @@ import app from "../../server";
 import chai from "chai";
 import chaiHttp from "chai-http";
 import { assert } from "console";
+import { sign } from "jsonwebtoken";
+
 chai.use(chaiHttp);
 const expect = chai.expect;
-
+const secret = process.env.JWT_SECRET || "testmode";
+const token = sign({ username: "test" }, secret, { expiresIn: "7d" });
 const postTests = [
 	{
 		code: 404,
@@ -38,6 +41,7 @@ describe("testing blog PUT at /post", () => {
 				.request(app)
 				.put(`/post`)
 				.set("content-type", "application/x-www-form-urlencoded")
+				.set("x-access-token", token)
 				.send({ title: test.title, markdown: test.markdown, slug: test.slug })
 				.end((err: any, res: any) => {
 					expect(res.statusCode).to.be.equal(test.code);

@@ -1,9 +1,11 @@
 import app from "../../server";
 import chai from "chai";
 import chaiHttp from "chai-http";
-import { assert } from "console";
+import { sign } from "jsonwebtoken";
 chai.use(chaiHttp);
 const expect = chai.expect;
+const secret = process.env.JWT_SECRET || "testmode";
+const token = sign({ username: "test" }, secret, { expiresIn: "7d" });
 //TODO: Need to fix tests
 
 const postTests = [
@@ -21,6 +23,7 @@ describe("Testing DELETE at /image", () => {
 				.request(app)
 				.delete("/image")
 				.set("content-type", "application/x-www-form-urlencoded")
+				.set("x-access-token", token)
 				.send({ id: test.id })
 				.end((err: any, res: any) => {
 					expect(res.statusCode).to.be.equal(test.code);
