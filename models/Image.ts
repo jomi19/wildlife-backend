@@ -8,7 +8,7 @@ interface IImage {
 	_id?: string;
 }
 
-interface ImageModelInterface extends mongoose.Model<ImageDoc> {
+interface imageModelInterface extends mongoose.Model<ImageDoc> {
 	build(attr: IImage): ImageDoc;
 }
 interface ImageDoc extends mongoose.Document {
@@ -16,7 +16,6 @@ interface ImageDoc extends mongoose.Document {
 	path: string;
 	created?: Date;
 	tags?: Array<string>;
-	_id: string;
 }
 const ImageSchema = new mongoose.Schema({
 	description: { type: String },
@@ -30,7 +29,7 @@ ImageSchema.statics.build = (attr: IImage) => {
 	return new Image(attr);
 };
 
-const Image = mongoose.model<ImageDoc, ImageModelInterface>(
+const Image = mongoose.model<ImageDoc, imageModelInterface>(
 	"Image",
 	ImageSchema
 );
