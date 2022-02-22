@@ -21,7 +21,7 @@ mongo $DATABASE --eval "printjson(db.$POSTTABLE.insertMany($POSTINSERTVALUE))"
 echo "Copying images to test folder"
 cp ./images/test.jpg ./images/test/delete.jpg
 echo "Setting up test images into $IMAGESTABLE"
-mongosh $DATABASE --eval "printjson(db.$IMAGESTABLE.insertMany($IMAGESINSERTVALUE))"
+mongo $DATABASE --eval "printjson(db.$IMAGESTABLE.insertMany($IMAGESINSERTVALUE))"
 
 
 echo "Setting up dog into dog table at $DOGTABLE"
