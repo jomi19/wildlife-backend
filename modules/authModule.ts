@@ -8,7 +8,7 @@ const tokenDuration = "7d";
 const authModule = {
 	logIn: async function (req: Request, res: Response) {
 		const { password, username } = req.body;
-		console.log(username);
+
 		try {
 			const user = await User.findOne({ username: username });
 			if (!user) throw { code: 401, name: "Could not find user" };
@@ -33,12 +33,12 @@ const authModule = {
 		const token = req.headers["x-access-token"];
 
 		if (typeof token !== "string") {
-			return res.status(401).json({ error: { title: "Invalid token" } });
+			return res.status(401).json({ error: { name: "Invalid token" } });
 		}
 
 		jwt.verify(token, secret, (err) => {
 			if (err)
-				return res.status(401).json({ error: { title: "Invalid token" } });
+				return res.status(401).json({ error: { name: "Invalid token" } });
 			next();
 		});
 	},

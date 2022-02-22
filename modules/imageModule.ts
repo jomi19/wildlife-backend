@@ -42,7 +42,7 @@ const imageModule = {
 			if (path != undefined) fs.unlinkSync(`${path}`);
 			const code = err.code || 500;
 			const error: Error = {
-				title: err.name,
+				name: err.name,
 				description: err.message,
 			};
 			console.log(err);

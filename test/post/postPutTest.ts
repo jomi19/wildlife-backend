@@ -49,7 +49,7 @@ describe("testing blog PUT at /post", () => {
 
 					if (test.errMsg) {
 						expect(res.body.error.description, test.errMsg);
-						expect(res.body.error.title).to.equal(test.errTitle);
+						expect(res.body.error.name).to.equal(test.errTitle);
 					} else {
 						if (test.title === "") {
 							expect(res.body.title).to.not.equal(test.title);

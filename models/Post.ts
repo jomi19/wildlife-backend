@@ -38,7 +38,10 @@ postSchema.statics.build = (attr: IPost) => {
 postSchema.pre("validate", function (next) {
 	/// TODO: make so if slug exist newslug with date at end
 	if (this.title && !this.slug) {
-		this.slug = slugify(this.title, { lower: true, strict: true });
+		const slug = slugify(this.title, { lower: true, strict: true });
+		const date = new Date();
+		const datePart = date.toISOString().split("T")[0];
+		this.slug = `${slug}${datePart}`;
 	}
 	if (this.markdown) {
 		const html = marked(this.markdown);

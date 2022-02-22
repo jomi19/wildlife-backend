@@ -28,7 +28,7 @@ router.delete(
 );
 router.get("/all", async (req: Request, res: Response) => {
 	try {
-		const result = await Post.find().sort({ _id: 1 });
+		const result = await Post.find().sort({ _id: -1 });
 
 		return res.status(200).json(result);
 	} catch (err: any) {}

@@ -15,9 +15,9 @@ const postModule = {
 
 			return res.status(200).json(post);
 		} catch (err: any) {
-			const code = err.code | 500;
+			const code = 500;
 			const error: Error = {
-				title: err.name,
+				name: err.name,
 				description: err.message,
 			};
 
@@ -29,6 +29,7 @@ const postModule = {
 		try {
 			const filter = { slug: req.body.slug };
 			const post: any = await Post.findOne(filter);
+			console.log("test");
 			if (post === null)
 				throw {
 					name: "Cannot find",
@@ -44,7 +45,7 @@ const postModule = {
 		} catch (err: any) {
 			const code = err.code || 500;
 			const error: Error = {
-				title: err.name,
+				name: err.name,
 				description: err.message,
 			};
 			return res.status(code).json({ error: error });
@@ -57,14 +58,14 @@ const postModule = {
 			if (test === null)
 				throw {
 					name: "Wrong id",
-					message: "Cannot find any posts with that id",
+					message: "Cannot find any posts with that slug",
 					code: 404,
 				};
 			return res.status(204).json();
 		} catch (err: any) {
 			const code = err.code || 500;
 			const error: Error = {
-				title: err.name,
+				name: err.name,
 				description: err.message,
 			};
 			return res.status(code).json({ error });
@@ -85,7 +86,7 @@ const postModule = {
 		} catch (err: any) {
 			const code = err.code || 500;
 			const error: Error = {
-				title: err.name,
+				name: err.name,
 				description: err.message,
 			};
 			return res.status(code).json({ error });

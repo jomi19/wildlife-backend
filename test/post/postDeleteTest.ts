@@ -44,7 +44,7 @@ describe("testing blog POST at /post", () => {
 					expect(res.body).to.be.an("object");
 					if (test.errMsg) {
 						expect(res.body.error.description, test.errMsg);
-						expect(res.body.error.title).to.equal(test.errTitle);
+						expect(res.body.error.name).to.equal(test.errTitle);
 					}
 					done();
 				});

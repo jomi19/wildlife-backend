@@ -64,11 +64,11 @@ describe("testing blog POST at /post", () => {
 
 					if (test.errTitle) {
 						expect(res.body.error.description, test.errMsg);
-						expect(res.body.error.title).to.equal(test.errTitle);
+						expect(res.body.error.name).to.equal(test.errTitle);
 					} else {
-						expect(res.body.title).to.equal(test.title);
+						expect(res.body.slug.startsWith(test.slug)).to.be.true;
 						expect(res.body.markdown).to.equal(test.markdown);
-						expect(res.body.slug).to.equal(test.slug);
+						expect(res.body.title).to.equal(test.title);
 						expect(res.body.sanitizedHtml).to.equal(
 							`<p>${res.body.markdown}</p>\n`
 						);

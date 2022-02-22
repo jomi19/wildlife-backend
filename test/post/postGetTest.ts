@@ -55,7 +55,7 @@ describe("testing blog GET at /post and /post/all", () => {
 
 					if (test.errorMsg) {
 						expect(res.body.error.description, test.errorMsg);
-						expect(res.body.error.title).to.equal(test.title);
+						expect(res.body.error.name).to.equal(test.title);
 					} else {
 						expect(res.body.title).to.equal(test.title);
 					}
