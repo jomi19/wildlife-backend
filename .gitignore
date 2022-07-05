@@ -2,5 +2,6 @@ build/
 .nyc_output/
 coverage/
 node_modules/
-images/test/*
+images/*
+images/website/*
 user.json

@@ -30,7 +30,7 @@ interface IDog {
 	pictureUrl?: string;
 	born: Date;
 	hd?: string;
-	mh?: Number;
+	mh?: Imh;
 	prices?: string;
 	_id?: any;
 	sanitizedPrices?: string;

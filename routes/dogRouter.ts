@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { Dog } from "./../models";
 import { dogModule, authModule } from "../modules/";
 
 const checkToken = authModule.checkToken;
@@ -12,10 +11,6 @@ router.post(
 );
 
 router.get("/", (req, res) => dogModule.getSingle(req, res));
-
-// router.get("/", async (req: Request, res: Response) => {
-// 	postModule.findOne(req, res);
-// });
 
 router.put(
 	"/",
