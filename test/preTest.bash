@@ -11,23 +11,23 @@ USERINSERVALUE="[{username: 'test', password: 'test'}]"
 DOGINSERTVALUE="[{name: 'aiko', mh: {curiosity: 1, aggression: 1, social: 1, hunting: 1, playfulness: 1}, born: '2021-01-01T00:00:00.000+00:00'}, {name: 'storm', born: '2021-01-01T00:00:00.000+00:00'}]"
 
 echo "Resetting test folders and database $DATABASE."
-mongosh $DATABASE --eval "printjson(db.dropDatabase())"
+mongo $DATABASE --eval "printjson(db.dropDatabase())"
 rm -r ./images/test
 mkdir ./images/test
 
 echo "Setting up test blog posts into $POSTTABLE and adding"
-mongosh $DATABASE --eval "printjson(db.$POSTTABLE.insertMany($POSTINSERTVALUE))"
+mongo $DATABASE --eval "printjson(db.$POSTTABLE.insertMany($POSTINSERTVALUE))"
 
 echo "Copying images to test folder"
 cp ./testimage.jpg ./images/test/test.jpg
 cp ./testimage.jpg ./images/test/delete.jpg
 echo "Setting up test images into $IMAGESTABLE"
-mongosh $DATABASE --eval "printjson(db.$IMAGESTABLE.insertMany($IMAGESINSERTVALUE))"
+mongo $DATABASE --eval "printjson(db.$IMAGESTABLE.insertMany($IMAGESINSERTVALUE))"
 
 
 echo "Setting up dog into dog table at $DOGTABLE"
-mongosh $DATABASE --eval "printjson(db.$DOGTABLE.insertMany($DOGINSERTVALUE))"
+mongo $DATABASE --eval "printjson(db.$DOGTABLE.insertMany($DOGINSERTVALUE))"
 
 echo "Setting up a test user"
-mongosh $DATABASE --eval "printjson(db.$USERTABLE.insertMany($USERINSERVALUE))"
+mongo $DATABASE --eval "printjson(db.$USERTABLE.insertMany($USERINSERVALUE))"
 
