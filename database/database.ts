@@ -1,5 +1,4 @@
 function getDatabaseUrl(): string {
-	console.log(process.env.NODE_ENV);
 	if (process.env.NODE_ENV === "dev") {
 		return "mongodb://localhost:27017/wildlifedev";
 	}

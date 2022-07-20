@@ -31,7 +31,7 @@ const authModule = {
 
 	checkToken: async function (req: Request, res: Response, next: Function) {
 		const token = req.headers["x-access-token"];
-		console.log(token);
+
 		if (typeof token !== "string") {
 			return res.status(401).json({ error: { name: "Invalid token" } });
 		}

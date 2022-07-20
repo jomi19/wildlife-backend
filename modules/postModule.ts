@@ -29,7 +29,7 @@ const postModule = {
 		try {
 			const filter = { slug: req.body.slug };
 			const post: any = await Post.findOne(filter);
-			console.log("test");
+
 			if (post === null)
 				throw {
 					name: "Cannot find",

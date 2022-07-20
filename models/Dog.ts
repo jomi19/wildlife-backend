@@ -5,7 +5,6 @@ import { JSDOM } from "jsdom";
 
 const jsdom: any = new JSDOM("").window;
 const domPurify = createDOMPurify(jsdom);
-
 const mhMin = 0;
 const mhMax = 5;
 
@@ -17,6 +16,12 @@ interface Imh extends mongoose.Document {
 	playfulness: Number;
 }
 
+interface IInfoBlock extends mongoose.Document {
+	title: String;
+	markdown: String;
+	sanitizeHtml: String;
+}
+
 const mh = new mongoose.Schema({
 	curiosity: { type: Number, required: true, min: mhMin, max: mhMax },
 	aggression: { type: Number, required: true, min: mhMin, max: mhMax },
@@ -25,41 +30,39 @@ const mh = new mongoose.Schema({
 	playfulness: { type: Number, required: true, min: mhMin, max: mhMax },
 });
 
+const infoBlock = new mongoose.Schema({
+	title: { type: String, required: true },
+	markdown: { type: String },
+	sanitizeHtml: { type: String },
+});
+
 interface IDog {
 	name: string;
 	pictureUrl?: string;
 	born: Date;
-	hd?: string;
 	mh?: Imh;
-	prices?: string;
 	_id?: any;
-	sanitizedPrices?: string;
-	sanitizedHd?: string;
+	infoBlock: Array<IInfoBlock>;
 }
 
 interface dogModelInterface extends mongoose.Model<DogDoc> {
 	build(attr: IDog): DogDoc;
 }
+
 interface DogDoc extends mongoose.Document {
 	name: string;
 	pictureUrl?: string;
 	born: Date;
-	hd?: string;
 	mh?: Imh;
-	prices?: string;
 	_id?: any;
-	sanitizedPrices?: string;
-	sanitizedHd?: string;
+	infoBlock: Array<IInfoBlock>;
 }
 const dogSchema = new mongoose.Schema({
 	name: { type: String, required: true, unique: true },
 	pictureUrl: { type: String },
 	born: { type: Date, required: true },
-	hd: { type: String },
 	mh: { type: mh },
-	prices: { type: String },
-	sanitizedPrices: { type: String },
-	sanitizedHd: { type: String },
+	infoBlock: { type: Array },
 });
 
 dogSchema.statics.build = (attr: IDog) => {
@@ -67,16 +70,14 @@ dogSchema.statics.build = (attr: IDog) => {
 };
 
 dogSchema.pre("validate", function (next) {
-	if (this.prices) {
-		const html = marked(this.prices);
-		this.sanitizedPrices = domPurify.sanitize(html);
+	if (this.infoBlock) {
+		this.infoBlock.forEach((block) => {
+			if (block.markdown) {
+				const html = marked(block.markdown);
+				block.sanitizedHtml = domPurify.sanitize(html);
+			}
+		});
 	}
-
-	if (this.hd) {
-		const html = marked(this.hd);
-		this.sanitizedHd = domPurify.sanitize(html);
-	}
-
 	next();
 });
 

@@ -11,15 +11,13 @@ const dogModule = {
 	insert: async function (req: Request, res: Response) {
 		///TODO: fix status codes for error handeling
 		try {
-			const { name, pictureUrl, born, hd, mh, prices } = req.body;
-			console.log("inserting");
+			const { name, pictureUrl, born, mh, infoBlock } = req.body;
 			const dog = Dog.build({
 				name: name.toLowerCase(),
 				pictureUrl,
 				born,
-				hd,
+				infoBlock,
 				mh,
-				prices,
 			});
 
 			await dog.save();
@@ -48,15 +46,13 @@ const dogModule = {
 			const code = err.statusCode || 500;
 			const error = { name: err.name, message: err.message };
 
-			console.log(error);
-
 			return res.status(code).json({ error: error });
 		}
 	},
 
 	update: async function (req: Request, res: Response) {
 		try {
-			const { pictureUrl, born, hd, prices } = req.body;
+			const { pictureUrl, born, infoBlock } = req.body;
 			const name: String = req.body.name;
 			const mh: Imh | undefined = req.body.mh;
 			const dog = await Dog.findOne({ name: name.toLowerCase() });
@@ -64,9 +60,8 @@ const dogModule = {
 			if (dog === null) throw errorCantFind;
 			if (pictureUrl) dog.pictureUrl = pictureUrl;
 			if (born) dog.born = born;
-			if (hd) dog.hd = hd;
 			if (mh) dog.mh = mh;
-			if (prices) dog.prices = prices;
+			if (infoBlock) dog.infoBlock = infoBlock;
 
 			await dog.save();
 			return res.status(200).json(dog);

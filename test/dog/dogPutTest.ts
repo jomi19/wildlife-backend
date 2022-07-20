@@ -12,13 +12,6 @@ const invalidToken = sign({ username: "test" }, "invalidSecret", {
 	expiresIn: "7d",
 });
 
-// {
-//     case: "dog",
-//     code: 0
-//     body: { }
-//     token:
-// }
-
 const dogPutTests = [
 	{
 		case: "Trying to update with a dog that do not exist",
@@ -37,8 +30,6 @@ const dogPutTests = [
 			name: "storm",
 			pictureUrl: "www.newimage.com",
 			born: "1990-01-01",
-			hd: "Testing hd",
-			prices: "All prices",
 			mh: {
 				playfulness: 5,
 				hunting: 5,
@@ -47,6 +38,12 @@ const dogPutTests = [
 				social: 5,
 			},
 		},
+		token,
+	},
+	{
+		case: "Updating dog with infoblocks",
+		code: 200,
+		body: { name: "storm", infoBlock: [{ title: "test", markdown: "test" }] },
 		token,
 	},
 ];
@@ -67,11 +64,22 @@ describe("Testing PUT at /dog", () => {
 						if (test.body.mh) {
 							expect(res.body.mh.social).to.be.equal(test.body.mh.social);
 						}
+
 						if (test.body.born)
 							expect(res.body.born.split("T")[0]).to.be.equal(test.body.born);
 						if (test.body.pictureUrl)
 							expect(res.body.pictureUrl).to.be.equal(test.body.pictureUrl);
-						if (test.body.prices) expect(`<p>${test.body.prices}</p>`);
+						if (test.body.infoBlock) {
+							const testInfoBlock = test.body.infoBlock;
+							for (let x = 0; x < testInfoBlock.length; x++) {
+								const infoBlock = res.body.infoBlock[x];
+
+								expect(infoBlock.sanitizedHtml).to.be.equal(
+									`<p>${testInfoBlock[x].markdown}</p>\n`
+								);
+								expect(infoBlock.title).to.be.equal(testInfoBlock[x].title);
+							}
+						}
 					}
 					done();
 				});

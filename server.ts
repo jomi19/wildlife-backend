@@ -17,7 +17,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-	console.log(req.body);
 	next();
 });
 app.use("/post", postRouter);
