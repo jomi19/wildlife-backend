@@ -43,7 +43,11 @@ const dogPutTests = [
 	{
 		case: "Updating dog with infoblocks",
 		code: 200,
-		body: { name: "storm", infoBlock: [{ title: "test", markdown: "test" }] },
+		body: {
+			name: "storm",
+			infoBlock: [{ title: "test", markdown: "test" }],
+			fullName: "stormen",
+		},
 		token,
 	},
 ];

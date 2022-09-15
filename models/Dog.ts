@@ -19,7 +19,7 @@ interface Imh extends mongoose.Document {
 interface IInfoBlock extends mongoose.Document {
 	title: String;
 	markdown: String;
-	sanitizeHtml: String;
+	sanitizedHtml: String;
 }
 
 const mh = new mongoose.Schema({
@@ -33,7 +33,7 @@ const mh = new mongoose.Schema({
 const infoBlock = new mongoose.Schema({
 	title: { type: String, required: true },
 	markdown: { type: String },
-	sanitizeHtml: { type: String },
+	sanitizedHtml: { type: String },
 });
 
 interface IDog {
@@ -43,6 +43,7 @@ interface IDog {
 	mh?: Imh;
 	_id?: any;
 	infoBlock: Array<IInfoBlock>;
+	fullName: string;
 }
 
 interface dogModelInterface extends mongoose.Model<DogDoc> {
@@ -56,6 +57,7 @@ interface DogDoc extends mongoose.Document {
 	mh?: Imh;
 	_id?: any;
 	infoBlock: Array<IInfoBlock>;
+	fullName: string;
 }
 const dogSchema = new mongoose.Schema({
 	name: { type: String, required: true, unique: true },
@@ -63,6 +65,7 @@ const dogSchema = new mongoose.Schema({
 	born: { type: Date, required: true },
 	mh: { type: mh },
 	infoBlock: { type: Array },
+	fullName: { type: String },
 });
 
 dogSchema.statics.build = (attr: IDog) => {

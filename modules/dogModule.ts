@@ -11,13 +11,14 @@ const dogModule = {
 	insert: async function (req: Request, res: Response) {
 		///TODO: fix status codes for error handeling
 		try {
-			const { name, pictureUrl, born, mh, infoBlock } = req.body;
+			const { name, pictureUrl, born, mh, infoBlock, fullName } = req.body;
 			const dog = Dog.build({
 				name: name.toLowerCase(),
 				pictureUrl,
 				born,
 				infoBlock,
 				mh,
+				fullName,
 			});
 
 			await dog.save();
@@ -52,18 +53,22 @@ const dogModule = {
 
 	update: async function (req: Request, res: Response) {
 		try {
-			const { pictureUrl, born, infoBlock } = req.body;
-			const name: String = req.body.name;
+			const { pictureUrl, born, infoBlock, fullName, newName } = req.body;
+			const name: string = req.body.name.toLowerCase();
 			const mh: Imh | undefined = req.body.mh;
 			const dog = await Dog.findOne({ name: name.toLowerCase() });
 
+			console.log("Updating");
 			if (dog === null) throw errorCantFind;
 			if (pictureUrl) dog.pictureUrl = pictureUrl;
 			if (born) dog.born = born;
 			if (mh) dog.mh = mh;
 			if (infoBlock) dog.infoBlock = infoBlock;
+			if (fullName) dog.fullName = fullName;
+			if (newName) dog.name = newName;
+			if (dog) await dog.save();
 
-			await dog.save();
+			console.log(dog);
 			return res.status(200).json(dog);
 		} catch (err: any) {
 			const code = err.statusCode || 500;
@@ -86,7 +91,7 @@ const dogModule = {
 
 	delete: async function (req: Request, res: Response) {
 		try {
-			const name: string = req.body.name;
+			const name: string = req.body.name.toLowerCase();
 			const dog = await Dog.findOneAndDelete({ name: name });
 
 			if (dog === null) throw errorCantFind;

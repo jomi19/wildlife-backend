@@ -48,6 +48,7 @@ const dogPostTests = [
 				playfulness: 5,
 			},
 		},
+		fullName: "test",
 	},
 	{
 		code: 500,
