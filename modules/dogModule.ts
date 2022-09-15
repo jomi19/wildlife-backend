@@ -11,9 +11,9 @@ const dogModule = {
 	insert: async function (req: Request, res: Response) {
 		///TODO: fix status codes for error handeling
 		try {
-			const { name, pictureUrl, born, mh, infoBlock, fullName } = req.body;
+			const { newName, pictureUrl, born, mh, infoBlock, fullName } = req.body;
 			const dog = Dog.build({
-				name: name.toLowerCase(),
+				name: newName.toLowerCase(),
 				pictureUrl,
 				born,
 				infoBlock,
