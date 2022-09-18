@@ -23,11 +23,23 @@ const dogPutTests = [
 		token,
 		error: "Could not find the dog",
 	},
+
+	{
+		case: "Updating dog with infoblocks",
+		code: 200,
+		body: {
+			name: "storm",
+			infoBlock: [{ title: "test", markdown: "test" }],
+			fullName: "stormen",
+		},
+		token,
+	},
 	{
 		case: "Updating dog with all new fields",
 		code: 200,
 		body: {
 			name: "storm",
+			newName: "nyastorm",
 			pictureUrl: "www.newimage.com",
 			born: "1990-01-01",
 			mh: {
@@ -37,16 +49,6 @@ const dogPutTests = [
 				curiosity: 5,
 				social: 5,
 			},
-		},
-		token,
-	},
-	{
-		case: "Updating dog with infoblocks",
-		code: 200,
-		body: {
-			name: "storm",
-			infoBlock: [{ title: "test", markdown: "test" }],
-			fullName: "stormen",
 		},
 		token,
 	},
@@ -84,6 +86,8 @@ describe("Testing PUT at /dog", () => {
 								expect(infoBlock.title).to.be.equal(testInfoBlock[x].title);
 							}
 						}
+						if (test.body.newName)
+							expect(res.body.name).to.be.equal(test.body.newName);
 					}
 					done();
 				});

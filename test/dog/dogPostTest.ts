@@ -39,7 +39,7 @@ const dogPostTests = [
 		token,
 		body: {
 			born: "2021-01-01",
-			name: "Doglas",
+			newName: "Doglas",
 			mh: {
 				curiosity: 1,
 				aggression: 2,
@@ -56,7 +56,7 @@ const dogPostTests = [
 		token,
 		body: {
 			born: "2021-01-01",
-			name: "Dognr2",
+			newName: "Dognr2",
 			mh: {
 				curiosity: 1,
 				aggression: 2,
